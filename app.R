@@ -26,12 +26,13 @@ ui <- fluidPage(titlePanel("County-level COVID19 tracker"),
                       href = "https://github.com/nytimes/covid-19-data")),
                     p("App created by ", a("John Davis", 
                                            href = "https://twitter.com/JDruns")),
-                    p("Code available ", a("on GitHub", href = "https://github.com/johnjdavisiv/covid-county-app"))
+                    p("Code available ", 
+                      a("on GitHub", href = "https://github.com/johnjdavisiv/covid-county-app"))
                     ),
                   mainPanel(plotOutput("covid_plot"),
                             p("Black points indiciate daily new case counts.", 
                               span("Red line", style="color:red"), 
-                              " shows average daily case count over the past seven days. Note that this moving average will necessarily lag a bit behind the 'true' daily case count!"))
+                              " shows average daily case count over the past seven days. Note that this moving average will necessarily lag a bit behind the 'true' daily case count! Be patient - the plot takes a few moments to update."))
                 )
 )
 
@@ -74,7 +75,7 @@ server <- function(input, output) {
             labs(x="Date", y="Daily new cases", 
                  title=sprintf("COVID19 in %s County, %s", input$my_county, input$my_state)) + 
             theme(plot.title = element_text(hjust = 0.5),
-                  text = element_text(size=20))
+                  text = element_text(size=16))
         
     })
     
