@@ -30,7 +30,7 @@ ui <- fluidPage(titlePanel("County-level COVID19 tracker"),
                   mainPanel(plotOutput("covid_plot"),
                             p("Black points indiciate daily new case counts.", 
                               span("Red line", style="color:red"), 
-                              " shows a 7-day moving average."))
+                              " shows average daily case count over the past seven days. Note that this moving average will necessarily lag a bit behind the 'true' daily case count!"))
                 )
 )
 
@@ -67,7 +67,7 @@ server <- function(input, output) {
         
         county_df %>%
           ggplot(aes(x=date, y=new_cases)) + 
-          geom_point(size=1) + 
+          geom_point(size=2) + 
           geom_line(aes(y=new_cases_7d_avg), 
                     color="red", size=2, alpha = 0.5) + 
             labs(x="Date", y="Daily new cases", 
