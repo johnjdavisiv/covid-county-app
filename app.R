@@ -25,7 +25,8 @@ ui <- fluidPage(titlePanel("County-level COVID19 tracker"),
                     a("New York Times COVID19 repository", 
                       href = "https://github.com/nytimes/covid-19-data")),
                     p("App created by ", a("John Davis", 
-                                           href = "https://twitter.com/JDruns"))
+                                           href = "https://twitter.com/JDruns")),
+                    p("Code available ", a("on GitHub", href = "https://github.com/johnjdavisiv/covid-county-app"))
                     ),
                   mainPanel(plotOutput("covid_plot"),
                             p("Black points indiciate daily new case counts.", 
@@ -73,7 +74,7 @@ server <- function(input, output) {
             labs(x="Date", y="Daily new cases", 
                  title=sprintf("COVID19 in %s County, %s", input$my_county, input$my_state)) + 
             theme(plot.title = element_text(hjust = 0.5),
-                  text = element_text(size=16))
+                  text = element_text(size=20))
         
     })
     
