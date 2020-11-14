@@ -1,0 +1,13 @@
+name: COVID19_county_tracker
+title: COVID19_county_tracker
+username:
+account: johnjdavisiv
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2542341
+bundleId: 3858790
+url: https://johnjdavisiv.shinyapps.io/COVID19_county_tracker/
+when: 1605320676.0041
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: README.md

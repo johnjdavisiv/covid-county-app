@@ -8,6 +8,7 @@
 library(shiny)
 library(tidyverse)
 library(zoo)
+library(cowplot)
 
 #Read data directly from New York Times' GitHub (updates ~daily)
 covid_county_raw <- read.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv")
@@ -15,7 +16,7 @@ covid_county_raw <- read.csv("https://raw.githubusercontent.com/nytimes/covid-19
 all_states <- sort(unique(covid_county_raw$state))
 
 # Define UI for application
-ui <- fluidPage(titlePanel("County-level COVID19 tracker"),
+ui <- fluidPage(titlePanel("County-level COVID-19 tracker"),
                 sidebarLayout(
                   sidebarPanel(
                     selectInput("my_state", label = "State: ",
@@ -67,15 +68,27 @@ server <- function(input, output) {
             mutate(new_cases = ifelse(new_cases < 0, 0, new_cases)) %>% #Set negative days to zero
             filter(!is.na(new_cases_7d_avg))
         
-        county_df %>%
+        plt_cases <- county_df %>%
           ggplot(aes(x=date, y=new_cases)) + 
           geom_point(size=2) + 
           geom_line(aes(y=new_cases_7d_avg), 
-                    color="red", size=2, alpha = 0.5) + 
+                    color="#00A5FF", size=2, alpha = 0.5) + 
             labs(x="Date", y="Daily new cases", 
-                 title=sprintf("COVID19 in %s County, %s", input$my_county, input$my_state)) + 
+                 title=sprintf("COVID-19 cases in %s County, %s", input$my_county, input$my_state)) + 
             theme(plot.title = element_text(hjust = 0.5),
                   text = element_text(size=16))
+        
+        plt_deaths <- county_df %>%
+          ggplot(aes(x=date, y=new_deaths)) + 
+          geom_point(size=2) + 
+          geom_line(aes(y=new_deaths_7d_avg), 
+                    color="red", size=2, alpha = 0.5) + 
+          labs(x="Date", y="Daily new deaths", 
+               title=sprintf("COVID-19 deaths in %s County, %s", input$my_county, input$my_state)) + 
+          theme(plot.title = element_text(hjust = 0.5),
+                text = element_text(size=16))
+        
+        plot_grid(plt_cases, plt_deaths, ncol=1)
         
     })
     
